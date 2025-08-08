@@ -36,6 +36,9 @@ public class AuthorService {
 
     @Transactional
     public void deleteAuthor(Long id){
+        if(!authorRepository.existsById(id)){
+            throw new EntityNotFoundException("Autor não encontrado com o id: " + id);
+        }
         authorRepository.deleteById(id);
     }
 
