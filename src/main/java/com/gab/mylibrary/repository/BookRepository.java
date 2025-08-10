@@ -1,5 +1,6 @@
 package com.gab.mylibrary.repository;
 
+import com.gab.mylibrary.model.Author;
 import com.gab.mylibrary.model.Book;
 import com.gab.mylibrary.model.enuns.Genre;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +15,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     List<Book> findByGenre(Genre genre);
     List<Book> findByAuthorId(Long authorId );
     List<Book> findByAuthorNameContainingIgnoreCase(String authorName);
+
+    List<Author> findByNameOrPseudonymContainingIgnoreCase(String name, String pseudonym);
 
 }

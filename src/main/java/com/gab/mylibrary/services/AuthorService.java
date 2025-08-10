@@ -54,4 +54,8 @@ public class AuthorService {
         return authorRepository.save(existingAuthor);
     }
 
+    @Transactional(readOnly = true)
+    public List<Author> findByNameOrPseudonym(String name, String pseudonym){
+        return findByNameOrPseudonym(name,pseudonym);
+    }
 }

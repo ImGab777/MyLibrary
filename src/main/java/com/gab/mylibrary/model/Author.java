@@ -24,6 +24,9 @@ public class Author {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = true)
+    private String pseudonym;
+
     @Column(nullable = false)
     private LocalDate birthDate;
 
