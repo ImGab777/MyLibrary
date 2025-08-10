@@ -43,9 +43,9 @@ public class AuthorService {
     }
 
     @Transactional
-    public Author updateAuthor(long id, Author authorDetails){
+    public Author updateAuthor(Long id, Author authorDetails){
         Author existingAuthor = authorRepository.findById(id)
-                .orElseThrow(() -> new EntityNotFoundException("Author não encontrado como  o id: " + id));
+                .orElseThrow(() -> new EntityNotFoundException("Author não encontrado com o id: " + id));
 
         existingAuthor.setName(authorDetails.getName());
         existingAuthor.setBirthDate(authorDetails.getBirthDate());

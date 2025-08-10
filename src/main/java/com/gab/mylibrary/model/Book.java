@@ -40,7 +40,14 @@ public class Book {
     @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
-    public Book(String title, Genre genre, String longDescription, String shortDescription, LocalDate publicationYear, String isbn, Author author) {
+    public Book(
+            String title,
+            Genre genre,
+            String longDescription,
+            String shortDescription,
+            LocalDate publicationYear,
+            String isbn,
+            Author author) {
         this.title = title;
         this.genre = genre;
         this.longDescription = longDescription;
