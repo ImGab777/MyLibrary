@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +56,10 @@ public class AuthorService {
     }
 
     @Transactional(readOnly = true)
-    public List<Author> findByNameOrPseudonym(String name, String pseudonym){
-        return findByNameOrPseudonym(name,pseudonym);
+    public List<Author> findByNameOrPseudonym(String searchTerm){
+        if (searchTerm == null || searchTerm.trim().isEmpty()){
+            return Collections.emptyList();
+        }
+        return authorRepository.findByNameContainingIgnoreCaseOrPseudonymContainingIgnoreCase(searchTerm, searchTerm);
     }
 }

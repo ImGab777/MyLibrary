@@ -9,6 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/api/authors")
 public class AuthorController {
@@ -21,12 +24,20 @@ public class AuthorController {
         this.authorMapper = authorMapper;
     }
 
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<AuthorDTO>getAuthorById(@PathVariable Long id){
         return authorService.getAuthorById(id)
                 .map(authorMapper::toDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/authors")
+    public ResponseEntity<List<AuthorDTO>> getAllAuthors(){
+        List<AuthorDTO> authors = authorService.getAllAuthors().stream()
+                .map(authorMapper :: toDTO)
+                .collect(Collectors.toList());
+        return ResponseEntity.ok(authors);
     }
 
     @PostMapping
