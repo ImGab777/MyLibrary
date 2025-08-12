@@ -1,6 +1,5 @@
 package com.gab.mylibrary.dto;
 
-import com.gab.mylibrary.model.Author;
 import com.gab.mylibrary.model.enuns.Genre;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -26,6 +25,6 @@ public record BookDTO(
         @NotNull
         String isbn,
         @NotNull
-        Author author
+        AuthorDTO author
         ) {
 }

@@ -7,6 +7,13 @@ import org.springframework.stereotype.Component;
 @Component
 public class BookMapper {
 
+    private final AuthorMapper authorMapper;
+
+    public BookMapper(AuthorMapper authorMapper) {
+        this.authorMapper = authorMapper;
+    }
+
+
     public BookDTO toDTO(Book book) {
         if (book == null) {
             return null;
@@ -19,7 +26,7 @@ public class BookMapper {
                 book.getShortDescription(),
                 book.getPublicationYear(),
                 book.getIsbn(),
-                book.getAuthor()
+                authorMapper.toDTO(book.getAuthor())
         );
     }
 
@@ -35,7 +42,7 @@ public class BookMapper {
         book.setShortDescription(bookDTO.shortDescription());
         book.setPublicationYear(bookDTO.publicationYear());
         book.setIsbn(bookDTO.isbn());
-        book.setAuthor(bookDTO.author());
+        book.setAuthor(authorMapper.toEntity(bookDTO.author()));
         return book;
     }
 
