@@ -3,6 +3,7 @@ package com.gab.mylibrary.services;
 import com.gab.mylibrary.model.Author;
 import com.gab.mylibrary.model.Book;
 import com.gab.mylibrary.model.enuns.Genre;
+import com.gab.mylibrary.repository.AuthorRepository;
 import com.gab.mylibrary.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +19,19 @@ public class BookService {
     @Autowired
     private BookRepository bookRepository;
 
+    @Autowired
+    private AuthorRepository authorRepository;
+
     @Transactional
     public Book createBook(Book book) {
+        if (book.getAuthor() == null || book.getAuthor().getId() == null){
+            throw new IllegalArgumentException("O autor e seu id não podem ser nulos ");
+        }
+
+        Long authorId = book.getAuthor().getId();
+        Author author = authorRepository.findById(authorId)
+                .orElseThrow(() -> new EntityNotFoundException("Author não encontrado com o id: " + authorId));
+        book.setAuthor(author);
         return bookRepository.save(book);
     }
 
