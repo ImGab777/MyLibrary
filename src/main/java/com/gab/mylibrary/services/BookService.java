@@ -69,9 +69,22 @@ public class BookService {
     public Book updateBook(long id, Book bookDetails) {
         Book existingBook = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Livro não encontrado com o id: " + id));
-
+        // Atualiza todos os campos do livro existente
         existingBook.setTitle(bookDetails.getTitle());
-        return bookRepository.save(bookDetails);
+        existingBook.setGenre(bookDetails.getGenre());
+        existingBook.setLongDescription(bookDetails.getLongDescription());
+        existingBook.setShortDescription(bookDetails.getShortDescription());
+        existingBook.setPublicationYear(bookDetails.getPublicationYear());
+        existingBook.setIsbn(bookDetails.getIsbn());
+
+        // Se o autor foi alterado, busca o novo autor e o atualiza
+        if (bookDetails.getAuthor() != null && bookDetails.getAuthor().getId() != null) {
+            Author author = authorRepository.findById(bookDetails.getAuthor().getId())
+                    .orElseThrow(() -> new EntityNotFoundException("Autor não encontrado com o id: " + bookDetails.getAuthor().getId()));
+            existingBook.setAuthor(author);
+        }
+
+        return bookRepository.save(existingBook);
     }
 
     @Transactional

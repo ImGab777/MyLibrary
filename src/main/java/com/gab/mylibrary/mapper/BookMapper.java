@@ -1,6 +1,8 @@
 package com.gab.mylibrary.mapper;
 
 import com.gab.mylibrary.dto.BookDTO;
+import com.gab.mylibrary.dto.BookInputDTO;
+import com.gab.mylibrary.model.Author;
 import com.gab.mylibrary.model.Book;
 import org.springframework.stereotype.Component;
 
@@ -30,19 +32,24 @@ public class BookMapper {
         );
     }
 
-    public Book toEntity(BookDTO bookDTO){
-        if (bookDTO == null){
+    public Book toEntity(BookInputDTO bookInputDTO){
+        if (bookInputDTO == null){
             return null;
         }
         Book book = new Book();
-        book.setId(bookDTO.id());
-        book.setTitle(bookDTO.title());
-        book.setGenre(bookDTO.genre());
-        book.setLongDescription(bookDTO.longDescription());
-        book.setShortDescription(bookDTO.shortDescription());
-        book.setPublicationYear(bookDTO.publicationYear());
-        book.setIsbn(bookDTO.isbn());
-        book.setAuthor(authorMapper.toEntity(bookDTO.author()));
+        book.setTitle(bookInputDTO.title());
+        book.setGenre(bookInputDTO.genre());
+        book.setLongDescription(bookInputDTO.longDescription());
+        book.setShortDescription(bookInputDTO.shortDescription());
+        book.setPublicationYear(bookInputDTO.publicationYear());
+        book.setIsbn(bookInputDTO.isbn());
+
+        if(bookInputDTO.authorId() != null){
+            Author author = new Author();
+            author.setId(bookInputDTO.authorId());
+            book.setAuthor(author);
+        }
+
         return book;
     }
 

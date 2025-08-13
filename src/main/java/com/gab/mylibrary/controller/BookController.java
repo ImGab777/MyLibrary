@@ -1,6 +1,7 @@
 package com.gab.mylibrary.controller;
 
 import com.gab.mylibrary.dto.BookDTO;
+import com.gab.mylibrary.dto.BookInputDTO;
 import com.gab.mylibrary.mapper.BookMapper;
 import com.gab.mylibrary.model.Book;
 import com.gab.mylibrary.model.enuns.Genre;
@@ -43,15 +44,15 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDTO> createBook(@Valid @RequestBody BookDTO bookDTO) {
-        Book book = bookMapper.toEntity(bookDTO);
+    public ResponseEntity<BookDTO> createBook(@Valid @RequestBody BookInputDTO bookInputDTO) {
+        Book book = bookMapper.toEntity(bookInputDTO);
         Book createdBook = bookService.createBook(book);
         return new ResponseEntity<>(bookMapper.toDTO(createdBook), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(@PathVariable  long id, @Valid @RequestBody BookDTO bookDTO){
-        Book bookDetails = bookMapper.toEntity(bookDTO);
+    public ResponseEntity<BookDTO> updateBook(@PathVariable  long id, @Valid @RequestBody BookInputDTO bookInputDTO){
+        Book bookDetails = bookMapper.toEntity(bookInputDTO);
         try{
             Book updatedBook = bookService.updateBook(id, bookDetails);
             return ResponseEntity.ok(bookMapper.toDTO(updatedBook));
